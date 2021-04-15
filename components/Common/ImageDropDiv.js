@@ -52,7 +52,7 @@ function ImageDropDiv(props) {
                       style={{ cursor: "pointer" }}
                       onClick={() => inputRef.current.click()}
                     />
-                    Drag n Drop or Click To Upload Image
+                    Drag Drop or Click To Upload Image
                   </Header>
                 </Segment>
               </>

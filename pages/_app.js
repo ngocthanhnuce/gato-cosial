@@ -1,14 +1,46 @@
 import App from "next/app";
 import Layout from "../components/Layout/Layout";
 import "semantic-ui-css/semantic.min.css";
+import axios from "axios";
+import { destroyCookie, parseCookies } from "nookies";
+import { redirectUser } from "../utils/authUser";
+import baseUrl from "../utils/baseUrl";
 
 class MyApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    const { token } = parseCookies(ctx);
+    let pageProps = {};
+    const protectedRoutes = ctx.pathname === "/";
+
+    if (!token) {
+      protectedRoutes && redirectUser(ctx, "/login");
+    } else {
+      if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+      }
+      try {
+        const res = await axios.get(`${baseUrl}/api/auth`, {
+          headers: { Authorization: token },
+        });
+
+        const { user, userFollowStats } = res.data;
+        if (user) !protectedRoutes && redirectUser(ctx, "/");
+
+        pageProps.user = user;
+        pageProps.userFollowStats = userFollowStats;
+      } catch (error) {
+        destroyCookie(ctx, "token");
+        redirectUser(ctx, "/login");
+      }
+    }
+    return { pageProps };
+  }
   render() {
-    const { Component } = this.props;
+    const { Component, pageProps } = this.props;
 
     return (
-      <Layout>
-        <Component />
+      <Layout {...pageProps}>
+        <Component {...pageProps} />
       </Layout>
     );
   }
