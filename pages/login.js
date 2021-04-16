@@ -5,32 +5,44 @@ import {
   HeaderMessage,
   FooterMessage,
 } from "../components/Common/WelcomeMessage";
+import cookie from "js-cookie";
 
 function Login() {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  const { email, password } = user;
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  const { email, password } = user;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setUser((prev) => ({ ...prev, [name]: value }));
   };
+
   useEffect(() => {
     const isUser = Object.values({ email, password }).every((item) =>
       Boolean(item)
     );
     isUser ? setSubmitDisabled(false) : setSubmitDisabled(true);
   }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     await loginUser(user, setErrorMsg, setFormLoading);
   };
+
+  useEffect(() => {
+    document.title = "Welcome Back";
+    const userEmail = cookie.get("userEmail");
+    if (userEmail) setUser((prev) => ({ ...prev, email: userEmail }));
+  }, []);
 
   return (
     <>
@@ -46,6 +58,7 @@ function Login() {
           content={errorMsg}
           onDismiss={() => setErrorMsg(null)}
         />
+
         <Segment>
           <Form.Input
             required
@@ -77,6 +90,7 @@ function Login() {
             type={showPassword ? "text" : "password"}
             required
           />
+
           <Divider hidden />
           <Button
             icon="signup"
@@ -87,6 +101,7 @@ function Login() {
           />
         </Segment>
       </Form>
+
       <FooterMessage />
     </>
   );
