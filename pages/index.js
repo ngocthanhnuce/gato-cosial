@@ -19,7 +19,7 @@ function Index(props) {
   if (posts.length === 0 || errorLoading) return <NoPosts />;
   return (
     <>
-      <Segment>
+      <Segment style={{marginTop: '15px', marginBottom:'20px'}}>
         <CreatePost user={user} setPosts={setPosts} />
         {posts?.map((post) => (
           <CardPost
