@@ -6,8 +6,15 @@ const UserModel = require("../models/User");
 const PostModel = require("../models/Post");
 const FollowerModel = require("../models/Follower");
 const uuid = require("uuid").v4;
+const {
+  newLikeNotification,
+  removeLikeNotification,
+  newCommentNotification,
+  removeCommentNotification,
+} = require("../utilsServer/notificationActions");
 
 //create post
+
 router.post("/", authMiddleware, async (req, res) => {
   const { text, location, picUrl } = req.body;
 
@@ -32,7 +39,9 @@ router.post("/", authMiddleware, async (req, res) => {
     return res.status(500).send(`Server error`);
   }
 });
-//get oll post
+
+//get all post
+
 router.get("/", authMiddleware, async (req, res) => {
   const { pageNumber } = req.query;
 
@@ -45,7 +54,9 @@ router.get("/", authMiddleware, async (req, res) => {
     if (number === 1) {
       posts = await PostModel.find()
         .limit(size)
-        .sort({ createdAt: -1 })
+        .sort({
+          createdAt: -1,
+        })
         .populate("user")
         .populate("comments.user");
     }
@@ -55,7 +66,9 @@ router.get("/", authMiddleware, async (req, res) => {
       posts = await PostModel.find()
         .skip(skips)
         .limit(size)
-        .sort({ createdAt: -1 })
+        .sort({
+          createdAt: -1,
+        })
         .populate("user")
         .populate("comments.user");
     }
@@ -67,7 +80,9 @@ router.get("/", authMiddleware, async (req, res) => {
     let postsToBeSent = [];
     const { userId } = req;
 
-    const loggedUser = await FollowerModel.findOne({ user: userId });
+    const loggedUser = await FollowerModel.findOne({
+      user: userId,
+    });
 
     if (loggedUser.following.length === 0) {
       postsToBeSent = posts.filter(
@@ -102,6 +117,7 @@ router.get("/", authMiddleware, async (req, res) => {
 });
 
 //get post by id
+
 router.get("/:postId", authMiddleware, async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.postId)
@@ -120,6 +136,7 @@ router.get("/:postId", authMiddleware, async (req, res) => {
 });
 
 //delete post
+
 router.delete("/:postId", authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
@@ -150,14 +167,88 @@ router.delete("/:postId", authMiddleware, async (req, res) => {
   }
 });
 
-//get all like of a post
+//like post
+
+router.post("/like/:postId", authMiddleware, async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { userId } = req;
+
+    const post = await PostModel.findById(postId);
+    if (!post) {
+      return res.status(404).send("No post found");
+    }
+
+    const isLiked =
+      post.likes.filter((like) => like.user.toString() === userId).length > 0;
+
+    if (isLiked) {
+      return res.status(401).send("Post already liked");
+    }
+
+    await post.likes.unshift({
+      user: userId,
+    });
+    await post.save();
+
+    if (post.user.toString() !== userId) {
+      await newLikeNotification(userId, postId, post.user.toString());
+    }
+
+    return res.status(200).send("Post liked");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(`Server error`);
+  }
+});
+
+//unlike post
+
+router.put("/unlike/:postId", authMiddleware, async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { userId } = req;
+
+    const post = await PostModel.findById(postId);
+    if (!post) {
+      return res.status(404).send("No Post found");
+    }
+
+    const isLiked =
+      post.likes.filter((like) => like.user.toString() === userId).length === 0;
+
+    if (isLiked) {
+      return res.status(401).send("Post not liked before");
+    }
+
+    const index = post.likes
+      .map((like) => like.user.toString())
+      .indexOf(userId);
+
+    await post.likes.splice(index, 1);
+
+    await post.save();
+
+    if (post.user.toString() !== userId) {
+      await removeLikeNotification(userId, postId, post.user.toString());
+    }
+
+    return res.status(200).send("Post unliked");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(`Server error`);
+  }
+});
+
+//get all like post
+
 router.get("/like/:postId", authMiddleware, async (req, res) => {
   try {
     const { postId } = req.params;
 
     const post = await PostModel.findById(postId).populate("likes.user");
     if (!post) {
-      return res.status(404).send("No post found");
+      return res.status(404).send("No Post found");
     }
 
     return res.status(200).json(post.likes);
@@ -167,7 +258,8 @@ router.get("/like/:postId", authMiddleware, async (req, res) => {
   }
 });
 
-//create a comment
+//create comment
+
 router.post("/comment/:postId", authMiddleware, async (req, res) => {
   try {
     const { postId } = req.params;
@@ -209,7 +301,8 @@ router.post("/comment/:postId", authMiddleware, async (req, res) => {
   }
 });
 
-//delete a comment
+//delete comment
+
 router.delete("/:postId/:commentId", authMiddleware, async (req, res) => {
   try {
     const { postId, commentId } = req.params;
@@ -243,7 +336,7 @@ router.delete("/:postId/:commentId", authMiddleware, async (req, res) => {
         );
       }
 
-      return res.status(200).send("Deleted successfully");
+      return res.status(200).send("Deleted cuccessfully");
     };
 
     if (comment.user.toString() !== userId) {
