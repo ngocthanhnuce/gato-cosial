@@ -62,20 +62,8 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
         </Modal>
       )}
 
-      <Segment basic>
+      <>
         <Card color="teal" fluid>
-          {post.picUrl && (
-            <Image
-              src={post.picUrl}
-              style={{ cursor: "pointer" }}
-              floated="left"
-              wrapped
-              ui={false}
-              alt="PostImage"
-              onClick={() => setShowModal(true)}
-            />
-          )}
-
           <Card.Content>
             <Image
               floated="left"
@@ -92,15 +80,13 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
                   trigger={
                     <Image
                       src="/deleteIcon.svg"
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: "pointer", width: '25px' }}
                       size="mini"
                       floated="right"
                     />
                   }
                 >
-                  <Header as="h4" content="Are you sure?" />
-                  <p>This action is irreversible!</p>
-
+                  <Header as="h4" content="Bạn chắc chắn?" />
                   <Button
                     color="red"
                     icon="trash"
@@ -122,7 +108,19 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
             <Card.Meta>{calculateTime(post.createdAt)}</Card.Meta>
 
             {post.location && <Card.Meta content={post.location} />}
-
+          </Card.Content>
+          {post.picUrl && (
+            <Image
+              src={post.picUrl}
+              style={{ cursor: "pointer" }}
+              floated="left"
+              wrapped
+              ui={false}
+              alt="PostImage"
+              onClick={() => setShowModal(true)}
+            />
+          )}
+          <Card.Content>
             <Card.Description
               style={{
                 fontSize: "17px",
@@ -130,7 +128,15 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
                 wordSpacing: "0.35px",
               }}
             >
-              {post.text}
+              <p>
+                <span style={{color: "black", paddingRight: "5px"}}>
+                  {" "}
+                  <Link href={`/${post.user.username}`}>
+                    <a>{post.user.name}</a>
+                  </Link>
+                </span>
+                <span>{post.text}</span>
+              </p>
             </Card.Description>
           </Card.Content>
 
@@ -185,6 +191,11 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
               style={{ marginLeft: "7px" }}
               color="blue"
             />
+             <Icon
+              name="send"
+              style={{ marginLeft: "7px" }}
+              color=""
+            />
 
             {comments.length > 0 &&
               comments.map(
@@ -219,7 +230,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
             />
           </Card.Content>
         </Card>
-      </Segment>
+      </>
       <Divider hidden />
     </>
   );

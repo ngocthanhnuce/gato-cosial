@@ -18,9 +18,9 @@ function Index(props) {
   }, []);
   if (posts.length === 0 || errorLoading) return <NoPosts />;
   return (
-    <>
-      <Segment style={{marginTop: '15px', marginBottom:'20px'}}>
-        <CreatePost user={user} setPosts={setPosts} />
+    <div style={{ marginTop: "15px", marginBottom: "20px" }}>
+      <CreatePost user={user} setPosts={setPosts} />
+      <Segment>
         {posts?.map((post) => (
           <CardPost
             key={post._id}
@@ -31,7 +31,7 @@ function Index(props) {
           />
         ))}
       </Segment>
-    </>
+    </div>
   );
 }
 
