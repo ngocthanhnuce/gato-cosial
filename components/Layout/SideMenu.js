@@ -46,11 +46,11 @@ function SideMenu({ user: { unreadNotification, email, unreadMessage, username }
         <Link href="/notifications">
           <List.Item active={isActive("/notifications")}>
             <Icon
-              name={unreadNotification ? "hand point right" : "bell outline"}
+              name={unreadNotification ? "bell" : "bell outline"}
               size="large"
               color={
                 (isActive("/notifications") && "teal") ||
-                (unreadNotification && "orange")
+                (unreadNotification && "red")
               }
             />
             <List.Content>
