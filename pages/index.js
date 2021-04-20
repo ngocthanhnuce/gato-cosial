@@ -28,7 +28,7 @@ function Index(props) {
     // if (socket.current) {
     //   socket.current.emit("join", { userId: user._id });
     // }
-    document.title = `Welcome ${user.name.split("")[0]}`;
+    document.title = `Welcome ${user.name}`;
     // return () => {
     //   if (socket.current) {
     //     socket.current.emit("disconnect");
