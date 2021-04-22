@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import io from "socket.io-client";
@@ -10,6 +9,9 @@ import CardPost from "../components/Post/CardPost";
 import { Segment } from "semantic-ui-react";
 import { parseCookies } from "nookies";
 import NotificationPortal from "../components/Home/NotificationPortal";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { PostDeleteToastr } from "../components/Layout/Toastr";
+import { EndMessage, PlaceHolderPosts } from "../components/Layout/PlaceHolderGroup";
 
 function Index(props) {
   const { user, postsData, errorLoading } = props;
@@ -18,6 +20,7 @@ function Index(props) {
   const [pageNumber, setPageNumber] = useState(2);
   const [newNotification, setNewNotification] = useState(null);
   const [notificationPopup, showNotificationPopup] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   const socket = useRef();
 
@@ -37,6 +40,26 @@ function Index(props) {
     // };
   }, []);
   useEffect(() => {
+    showToastr && setTimeout(() => setShowToastr(false), 3000);
+  }, [showToastr]);
+
+  const fetchDataOnScroll = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/api/posts`, {
+        headers: { Authorization: cookie.get("token") },
+        params: { pageNumber },
+      });
+
+      if (res.data.length === 0) setHasMore(false);
+
+      setPosts((prev) => [...prev, ...res.data]);
+      setPageNumber((prev) => prev + 1);
+    } catch (error) {
+      alert("Bạn đã đọc hết tin");
+    }
+  };
+
+  useEffect(() => {
     if (socket.current) {
       socket.current.on(
         "newNotificationReceived",
@@ -48,7 +71,7 @@ function Index(props) {
       );
     }
   }, []);
-  if (posts.length === 0 || errorLoading) return <NoPosts />;
+  
   return (
     <>
       {notificationPopup && newNotification !== null && (
@@ -58,18 +81,28 @@ function Index(props) {
           showNotificationPopup={showNotificationPopup}
         />
       )}
+      {showToastr && <PostDeleteToastr />}
       <div style={{ marginTop: "15px", marginBottom: "20px" }}>
         <CreatePost user={user} setPosts={setPosts} />
         <Segment>
-          {posts?.map((post) => (
-            <CardPost
-              key={post._id}
-              post={post}
-              user={user}
-              setPosts={setPosts}
-              setShowToastr={setShowToastr}
-            />
-          ))}
+          <InfiniteScroll
+            hasMore={hasMore}
+            next={fetchDataOnScroll}
+            loader={<PlaceHolderPosts />}
+            endMessage={<EndMessage />}
+            dataLength={posts.length}
+          >
+            {posts.map((post) => (
+              <CardPost
+                socket={socket}
+                key={post._id}
+                post={post}
+                user={user}
+                setPosts={setPosts}
+                setShowToastr={setShowToastr}
+              />
+            ))}
+          </InfiniteScroll>
         </Segment>
       </div>
     </>

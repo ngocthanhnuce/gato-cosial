@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { logoutUser } from "../../utils/authUser";
 
-function SideMenu({ user: { unreadNotification, email, unreadMessage, username } }) {
+function SideMenu({ user: { unreadNotification, email, unreadMessage, username, isAdmin } }) {
   const router = useRouter();
 
   const isActive = route => router.pathname === route;
@@ -73,7 +73,18 @@ function SideMenu({ user: { unreadNotification, email, unreadMessage, username }
           </List.Item>
         </Link>
         <br />
-
+        {isAdmin ? (<Link href={"/admin"}>
+          <List.Item>
+            <Icon
+              name="adn"
+              size="large"
+            />
+            <List.Content>
+              <List.Header content="Admin" />
+            </List.Content>
+          </List.Item>
+        </Link>) : null}
+        <br />
         <List.Item onClick={() => logoutUser(email)}>
           <Icon name="log out" size="large" />
           <List.Content>

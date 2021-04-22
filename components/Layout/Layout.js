@@ -42,7 +42,7 @@ function Layout({ children, user }) {
           <style>{mediaStyles}</style>
 
           <MediaContextProvider>
-            <div>
+            <div style={{backgroundColor: '#EFF8FB'}}>
               <div style={{ marginLeft: "1rem", marginRight: "1rem" }}>
                 <Media greaterThanOrEqual="computer">
                   <Ref innerRef={contextRef}>
@@ -147,12 +147,12 @@ function Layout({ children, user }) {
           </MediaContextProvider>
         </>
       ) : (
-        <>
+        <div>
           <Navbar />
           <Container text style={{ paddingTop: "1rem" }}>
             {children}
           </Container>
-        </>
+        </div>
       )}
     </>
   );

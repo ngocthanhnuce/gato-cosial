@@ -190,12 +190,38 @@ router.put("/unfollow/:userToUnfollowId", authMiddleware, async (req, res) => {
   }
 });
 
+// Update avatar
+router.put("/updatepic", authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req;
+
+    await UserModel.findByIdAndUpdate(
+      { user: userId },
+      { $set: { profilePicUrl: req.body.profilePicUrl } },
+      { new: true }
+    );
+    (err, result) => {
+      if (err) {
+        return res.status(422).json({ error: "pic canot post" });
+      }
+      res.json(result);
+    };
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Server Error");
+  }
+});
+
 //update profile
 router.post("/update", authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
     const {
       bio,
+      work,
+      relationship,
+      address,
+      education,
       facebook,
       youtube,
       twitter,
@@ -206,6 +232,10 @@ router.post("/update", authMiddleware, async (req, res) => {
     let profileFields = {};
     profileFields.user = userId;
     profileFields.bio = bio;
+    profileFields.work = work;
+    profileFields.relationship = relationship;
+    profileFields.address = address;
+    profileFields.education = education;
     profileFields.social = {};
 
     if (facebook) profileFields.social.facebook = facebook;
@@ -253,9 +283,6 @@ router.post("/settings/password", authMiddleware, async (req, res) => {
     await user.save();
 
     res.status(200).send("Updated successfully");
-
-
-
   } catch (error) {
     console.error(error);
     return res.status(500).send("Server Error");
@@ -264,23 +291,23 @@ router.post("/settings/password", authMiddleware, async (req, res) => {
 
 //update message popup setting
 router.post("/settings/messagePopup", authMiddleware, async (req, res) => {
-    try {
-      const user = await UserModel.findById(req.userId);
-  
-      if (user.newMessagePopup) {
-        user.newMessagePopup = false;
-      }
-      //
-      else {
-        user.newMessagePopup = true;
-      }
-  
-      await user.save();
-      return res.status(200).send("updated");
-    } catch (error) {
-      console.error(error);
-      return res.status(500).send("Server Error");
+  try {
+    const user = await UserModel.findById(req.userId);
+
+    if (user.newMessagePopup) {
+      user.newMessagePopup = false;
     }
-  });
-  
-  module.exports = router;
+    //
+    else {
+      user.newMessagePopup = true;
+    }
+
+    await user.save();
+    return res.status(200).send("updated");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Server Error");
+  }
+});
+
+module.exports = router;

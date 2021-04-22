@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from "react";
 import {
   Card,
@@ -19,6 +18,7 @@ import { deletePost, likePost } from "../../utils/postActions";
 import LikesList from "./LikesList";
 import ImageModal from "./ImageModal";
 import NoImageModal from "./NoImageModal";
+import { FacebookShareButton } from "react-share";
 
 function CardPost({ post, user, setPosts, setShowToastr, socket }) {
   const [likes, setLikes] = useState(post.likes);
@@ -80,13 +80,13 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
                   trigger={
                     <Image
                       src="/deleteIcon.svg"
-                      style={{ cursor: "pointer", width: '25px' }}
+                      style={{ cursor: "pointer", width: "25px" }}
                       size="mini"
                       floated="right"
                     />
                   }
                 >
-                  <Header as="h4" content="Bạn chắc chắn?" />
+                  <Header as="h4" content="Bạn chắc chắn muốn xóa ?" />
                   <Button
                     color="red"
                     icon="trash"
@@ -129,7 +129,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
               }}
             >
               <p>
-                <span style={{color: "black", paddingRight: "5px"}}>
+                <span style={{ color: "black", paddingRight: "5px" }}>
                   {" "}
                   <Link href={`/${post.user.username}`}>
                     <a>{post.user.name}</a>
@@ -179,7 +179,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
               postId={post._id}
               trigger={
                 likes.length > 0 && (
-                  <span className="spanLikesList">
+                  <span className="spanLikesList" style={{color: 'black'}}>
                     {`${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
                   </span>
                 )
@@ -191,12 +191,13 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
               style={{ marginLeft: "7px" }}
               color="blue"
             />
-             <Icon
-              name="send"
-              style={{ marginLeft: "7px" }}
-              color=""
-            />
-
+            <FacebookShareButton
+              url={"https://social-network-98.herokuapp.com/"}
+              quote={post?.text}
+              // hashtag="#social_network"
+            >
+              <Icon name="send" style={{ marginLeft: "7px" }} color="blue" />
+            </FacebookShareButton>
             {comments.length > 0 &&
               comments.map(
                 (comment, i) =>
