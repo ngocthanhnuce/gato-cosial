@@ -12,7 +12,7 @@ import { range } from "lodash";
 
 export const PlaceHolderPosts = () =>
   range(1, 3).map(item => (
-    <div key={item}>
+    <div key={item} style={{marginTop: '20px'}}>
       <Placeholder fluid>
         <Placeholder.Header image>
           <Placeholder.Line />

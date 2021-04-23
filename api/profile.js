@@ -86,7 +86,7 @@ router.get("/followers/:userId", authMiddleware, async (req, res) => {
 });
 
 //get following of user
-router.get("following/:userId", authMiddleware, async (req, res) => {
+router.get("/following/:userId", authMiddleware, async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -222,6 +222,7 @@ router.post("/update", authMiddleware, async (req, res) => {
       relationship,
       address,
       education,
+      birthday,
       facebook,
       youtube,
       twitter,
@@ -236,6 +237,7 @@ router.post("/update", authMiddleware, async (req, res) => {
     profileFields.relationship = relationship;
     profileFields.address = address;
     profileFields.education = education;
+    profileFields.birthday = birthday;
     profileFields.social = {};
 
     if (facebook) profileFields.social.facebook = facebook;
@@ -297,7 +299,6 @@ router.post("/settings/messagePopup", authMiddleware, async (req, res) => {
     if (user.newMessagePopup) {
       user.newMessagePopup = false;
     }
-    //
     else {
       user.newMessagePopup = true;
     }
@@ -310,4 +311,7 @@ router.post("/settings/messagePopup", authMiddleware, async (req, res) => {
   }
 });
 
+
 module.exports = router;
+
+

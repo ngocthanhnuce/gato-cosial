@@ -9,6 +9,7 @@ const ProfileSchema = new Schema(
     relationship: { type: String, required: false },
     address: { type: String, required: false },
     education: { type: String, required: false },
+    birthday: { type: String, required: false },
     social: {
       facebook: { type: String },
       twitter: { type: String },

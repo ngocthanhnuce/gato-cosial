@@ -17,7 +17,6 @@ function ProfileHeader({
   setUserFollowStats,
 }) {
   const [loading, setLoading] = useState(false);
-
   const isFollowing =
     loggedUserFollowStats.following.length > 0 &&
     loggedUserFollowStats.following.filter(
@@ -48,39 +47,49 @@ function ProfileHeader({
             </Grid.Row>
 
             <Grid.Row>
+              <h3>Giới thiệu</h3>
               {profile.work && (
                 <List.Item style={{ display: "flex" }}>
-                  <List.Icon name="briefcase" color="blue" />
+                  <List.Icon name="briefcase" />
                   <List.Content
-                    style={{ color: "blue", paddingLeft: "5px" }}
+                    style={{ paddingLeft: "5px" }}
                     content={profile.work}
-                  />
-                </List.Item>
-              )}
-              {profile.relationship && (
-                <List.Item style={{ display: "flex" }}>
-                  <List.Icon name="venus double" color="blue" />
-                  <List.Content
-                    style={{ color: "blue", paddingLeft: "5px" }}
-                    content={profile.relationship}
                   />
                 </List.Item>
               )}
               {profile.address && (
                 <List.Item style={{ display: "flex" }}>
-                  <List.Icon name="child" color="blue" />
+                  <List.Icon name="point" color="blue" />
                   <List.Content
-                    style={{ color: "blue", paddingLeft: "5px" }}
+                    style={{ paddingLeft: "5px" }}
                     content={profile.address}
+                  />
+                </List.Item>
+              )}
+              {profile.relationship && (
+                <List.Item style={{ display: "flex" }}>
+                  <List.Icon name="heart" color="red" />
+                  <List.Content
+                    style={{ paddingLeft: "5px" }}
+                    content={profile.relationship}
                   />
                 </List.Item>
               )}
               {profile.education && (
                 <List.Item style={{ display: "flex" }}>
-                  <List.Icon name="address book outline" color="blue" />
+                  <List.Icon name="student" />
                   <List.Content
-                    style={{ color: "blue", paddingLeft: "5px" }}
+                    style={{ paddingLeft: "5px" }}
                     content={profile.education}
+                  />
+                </List.Item>
+              )}
+              {profile.birthday && (
+                <List.Item style={{ display: "flex" }}>
+                  <List.Icon name="birthday cake" color="red" />
+                  <List.Content
+                    style={{ paddingLeft: "5px" }}
+                    content={profile.birthday}
                   />
                 </List.Item>
               )}

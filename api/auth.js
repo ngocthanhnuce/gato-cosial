@@ -26,10 +26,10 @@ router.get("/", authMiddleware, async (req, res) => {
 router.post("/", async (req, res) => {
   const { email, password } = req.body.user;
 
-  if (!isEmail(email)) return res.status(401).send("Invalid Email");
+  if (!isEmail(email)) return res.status(401).send("Email không hợp lệ");
 
   if (password.length < 6) {
-    return res.status(401).send("Password must be atleast 6 characters");
+    return res.status(401).send("Mật khẩu phải ít nhất 6 kí tự");
   }
 
   try {
@@ -38,12 +38,12 @@ router.post("/", async (req, res) => {
     );
 
     if (!user) {
-      return res.status(401).send("Invalid Credentials");
+      return res.status(401).send("Thông tin không hợp lệ");
     }
 
     const isPassword = await bcrypt.compare(password, user.password);
     if (!isPassword) {
-      return res.status(401).send("Invalid Credentials");
+      return res.status(401).send("Thông tin không hợp lệ");
     }
 
     const payload = { userId: user._id };

@@ -110,7 +110,7 @@ function Signup() {
       <Form loading={formLoading} error={errorMsg !== null} onSubmit={handleSubmit}>
         <Message
           error
-          header="Oops!"
+          header="Error!"
           content={errorMsg}
           onDismiss={() => setErrorMsg(null)}
         />

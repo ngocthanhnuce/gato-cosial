@@ -15,8 +15,8 @@ import ProfileHeader from "../components/Profile/ProfileHeader";
 import Followers from "../components/Profile/Followers";
 import Following from "../components/Profile/Following";
 import UpdateProfile from "../components/Profile/UpdateProfile";
-import Settings from "../components/Profile/Settings";
 import { PostDeleteToastr } from "../components/Layout/Toastr";
+import Settings from "../components/Profile/Settings";
 
 function ProfilePage({
   errorLoading,
@@ -24,7 +24,7 @@ function ProfilePage({
   followersLength,
   followingLength,
   user,
-  userFollowStats,
+  userFollowStats
 }) {
   const router = useRouter();
 
@@ -33,26 +33,22 @@ function ProfilePage({
   const [showToastr, setShowToastr] = useState(false);
 
   const [activeItem, setActiveItem] = useState("profile");
-  const handleItemClick = (clickedTab) => setActiveItem(clickedTab);
+  const handleItemClick = clickedTab => setActiveItem(clickedTab);
 
   const [loggedUserFollowStats, setUserFollowStats] = useState(userFollowStats);
 
   const ownAccount = profile.user._id === user._id;
-
   if (errorLoading) return <NoProfile />;
 
   useEffect(() => {
     const getPosts = async () => {
       setLoading(true);
-
       try {
         const { username } = router.query;
-        const res = await axios.get(
-          `${baseUrl}/api/profile/posts/${username}`,
-          {
-            headers: { Authorization: cookie.get("token") },
-          }
-        );
+        const res = await axios.get(`${baseUrl}/api/profile/posts/${username}`, {
+          headers: { Authorization: cookie.get("token") }
+        });
+
         setPosts(res.data);
       } catch (error) {
         alert("Error Loading Posts");
@@ -77,6 +73,7 @@ function ProfilePage({
     if (socket.current) {
       socket.current.emit("join", { userId: user._id });
     }
+
     return () => {
       if (socket.current) {
         socket.current.emit("disconnect");
@@ -88,7 +85,6 @@ function ProfilePage({
   return (
     <>
       {showToastr && <PostDeleteToastr />}
-
       <Grid stackable>
         <Grid.Row>
           <Grid.Column>
@@ -113,11 +109,10 @@ function ProfilePage({
                   loggedUserFollowStats={loggedUserFollowStats}
                   setUserFollowStats={setUserFollowStats}
                 />
-
                 {loading ? (
                   <PlaceHolderPosts />
                 ) : posts.length > 0 ? (
-                  posts.map((post) => (
+                  posts.map(post => (
                     <CardPost
                       socket={socket}
                       key={post._id}
@@ -151,9 +146,7 @@ function ProfilePage({
               />
             )}
 
-            {activeItem === "updateProfile" && (
-              <UpdateProfile Profile={profile} />
-            )}
+            {activeItem === "updateProfile" && <UpdateProfile Profile={profile} />}
 
             {activeItem === "settings" && (
               <Settings newMessagePopup={user.newMessagePopup} />
@@ -165,13 +158,13 @@ function ProfilePage({
   );
 }
 
-ProfilePage.getInitialProps = async (ctx) => {
+ProfilePage.getInitialProps = async ctx => {
   try {
     const { username } = ctx.query;
     const { token } = parseCookies(ctx);
 
     const res = await axios.get(`${baseUrl}/api/profile/${username}`, {
-      headers: { Authorization: token },
+      headers: { Authorization: token }
     });
 
     const { profile, followersLength, followingLength } = res.data;

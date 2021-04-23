@@ -54,7 +54,7 @@ function Login() {
       >
         <Message
           error
-          header="Oops!"
+          header="Error!"
           content={errorMsg}
           onDismiss={() => setErrorMsg(null)}
         />

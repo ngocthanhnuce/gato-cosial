@@ -17,7 +17,6 @@ const Following = ({
   const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
-  console.log(following)
 
   useEffect(() => {
     const getFollowing = async () => {
@@ -29,12 +28,14 @@ const Following = ({
             headers: { Authorization: cookie.get("token") },
           }
         );
+
         setFollowing(res.data);
       } catch (error) {
         alert("Error Loading Followers");
       }
       setLoading(false);
     };
+
     getFollowing();
   }, []);
 
@@ -42,11 +43,11 @@ const Following = ({
     <>
       {loading ? (
         <Spinner />
-      ) : following?.length > 0 ? (
+      ) : following.length > 0 ? (
         following?.map((profileFollowing) => {
           const isFollowing =
-            loggedUserFollowStats.following?.length > 0 &&
-            loggedUserFollowStats.following?.filter(
+            loggedUserFollowStats.following.length > 0 &&
+            loggedUserFollowStats.following.filter(
               (following) => following.user === profileFollowing.user._id
             ).length > 0;
 
@@ -66,6 +67,7 @@ const Following = ({
                       disabled={followLoading}
                       onClick={() => {
                         setFollowLoading(true);
+
                         isFollowing
                           ? unfollowUser(
                               profileFollowing.user._id,

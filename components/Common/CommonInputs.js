@@ -5,10 +5,6 @@ const CommonInputs = (props) => {
   const {
     user: {
       bio,
-      work,
-      relationship,
-      address,
-      education,
       facebook,
       instagram,
       youtube,
@@ -22,48 +18,17 @@ const CommonInputs = (props) => {
     <>
       <Form.Field
         required
+        label="Bio"
         control={TextArea}
         name="bio"
         value={bio}
         onChange={handleChange}
         placeholder="bio"
       />
-       <Form.Field
-        required
-        control={TextArea}
-        name="work"
-        value={work}
-        onChange={handleChange}
-        placeholder="work"
-      />
-       <Form.Field
-        required
-        control={TextArea}
-        name="relationship"
-        value={relationship}
-        onChange={handleChange}
-        placeholder="relationship"
-      />
-       <Form.Field
-        required
-        control={TextArea}
-        name="address"
-        value={address}
-        onChange={handleChange}
-        placeholder="address"
-      />
-       <Form.Field
-        required
-        control={TextArea}
-        name="education"
-        value={education}
-        onChange={handleChange}
-        placeholder="education"
-      />
       <Button
         content="Add Social Links"
         color="red"
-        icon="at"
+        icon="rss"
         type="button"
         onClick={() => setShowSocialLinks(!showSocialLinks)}
       />

@@ -72,10 +72,8 @@ io.on("connection", socket => {
     const receiverSocket = findConnectedUser(msgSendToUserId);
 
     if (receiverSocket) {
-      // WHEN YOU WANT TO SEND MESSAGE TO A PARTICULAR SOCKET
       io.to(receiverSocket.socketId).emit("newMsgReceived", { newMsg });
     }
-    //
     else {
       await setMsgToUnread(msgSendToUserId);
     }
@@ -112,6 +110,7 @@ nextApp.prepare().then(() => {
   app.use("/api/search", require("./api/search"));
   app.use("/api/posts", require("./api/posts"));
   app.use("/api/profile", require("./api/profile"));
+  app.use("/api/chats", require("./api/chats"));
   app.use("/api/notifications", require("./api/notifications"));
 
   app.all("*", (req, res) => handle(req, res));

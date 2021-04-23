@@ -143,6 +143,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
           <Card.Content extra>
             <Icon
               name={isLiked ? "heart" : "heart outline"}
+              size="large"
               color="red"
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -188,6 +189,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
 
             <Icon
               name="comment outline"
+              size="large"
               style={{ marginLeft: "7px" }}
               color="blue"
             />
@@ -196,7 +198,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
               quote={post?.text}
               // hashtag="#social_network"
             >
-              <Icon name="send" style={{ marginLeft: "7px" }} color="blue" />
+              <Icon name="send" size="large" style={{ marginLeft: "7px" }}  />
             </FacebookShareButton>
             {comments.length > 0 &&
               comments.map(

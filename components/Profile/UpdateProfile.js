@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import { Form, Button, Message, Divider } from "semantic-ui-react";
 import ImageDropDiv from "../Common/ImageDropDiv";
-import CommonInputs from "../Common/CommonInputs";
 import uploadPic from "../../utils/uploadPicToCloudinary";
 import { profileUpdate } from "../../utils/profileActions";
+import CommonInputUpdate from "../Common/CommonInputUpdate";
 
 function UpdateProfile({ Profile }) {
   const [profile, setProfile] = useState({
@@ -13,6 +13,7 @@ function UpdateProfile({ Profile }) {
     relationship: Profile.relationship || "",
     address: Profile.address || "",
     education: Profile.education || "",
+    birthday: Profile.birthday || "",
     facebook: (Profile.social && Profile.social.facebook) || "",
     youtube: (Profile.social && Profile.social.youtube) || "",
     instagram: (Profile.social && Profile.social.instagram) || "",
@@ -40,7 +41,7 @@ function UpdateProfile({ Profile }) {
   };
 
   return (
-    <>
+    <div style={{paddingBottom: "25px"}}>
       <Form
         error={errorMsg !== null}
         loading={loading}
@@ -81,7 +82,7 @@ function UpdateProfile({ Profile }) {
           profilePicUrl={profile.profilePicUrl}
         />
 
-        <CommonInputs
+        <CommonInputUpdate
           user={profile}
           handleChange={handleChange}
           showSocialLinks={showSocialLinks}
@@ -98,7 +99,7 @@ function UpdateProfile({ Profile }) {
           type="submit"
         />
       </Form>
-    </>
+    </div>
   );
 }
 
