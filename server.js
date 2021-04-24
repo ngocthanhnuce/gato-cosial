@@ -12,23 +12,28 @@ const connectDb = require("./utilsServer/connectDb");
 connectDb();
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
-const { addUser, removeUser, findConnectedUser } = require("./utilsServer/roomActions");
+const {
+  addUser,
+  removeUser,
+  findConnectedUser,
+} = require("./utilsServer/roomActions");
 const {
   loadMessages,
   sendMsg,
   setMsgToUnread,
-  deleteMsg
+  deleteMsg,
 } = require("./utilsServer/messageActions");
 
 const { likeOrUnlikePost } = require("./utilsServer/likeOrUnlikePost");
 
-io.on("connection", socket => {
+io.on("connection", (socket) => {
   socket.on("join", async ({ userId }) => {
     const users = await addUser(userId, socket.id);
+    console.log(users);
 
     setInterval(() => {
       socket.emit("connectedUsers", {
-        users: users.filter(user => user.userId !== userId)
+        users: users.filter((user) => user.userId !== userId),
       });
     }, 10000);
   });
@@ -40,7 +45,7 @@ io.on("connection", socket => {
       profilePicUrl,
       username,
       postByUserId,
-      error
+      error,
     } = await likeOrUnlikePost(postId, userId, like);
 
     if (success) {
@@ -54,7 +59,7 @@ io.on("connection", socket => {
             name,
             profilePicUrl,
             username,
-            postId
+            postId,
           });
         }
       }
@@ -64,7 +69,9 @@ io.on("connection", socket => {
   socket.on("loadMessages", async ({ userId, messagesWith }) => {
     const { chat, error } = await loadMessages(userId, messagesWith);
 
-    !error ? socket.emit("messagesLoaded", { chat }) : socket.emit("noChatFound");
+    !error
+      ? socket.emit("messagesLoaded", { chat })
+      : socket.emit("noChatFound");
   });
 
   socket.on("sendNewMsg", async ({ userId, msgSendToUserId, msg }) => {
@@ -87,19 +94,22 @@ io.on("connection", socket => {
     if (success) socket.emit("msgDeleted");
   });
 
-  socket.on("sendMsgFromNotification", async ({ userId, msgSendToUserId, msg }) => {
-    const { newMsg, error } = await sendMsg(userId, msgSendToUserId, msg);
-    const receiverSocket = findConnectedUser(msgSendToUserId);
+  socket.on(
+    "sendMsgFromNotification",
+    async ({ userId, msgSendToUserId, msg }) => {
+      const { newMsg, error } = await sendMsg(userId, msgSendToUserId, msg);
+      const receiverSocket = findConnectedUser(msgSendToUserId);
 
-    if (receiverSocket) {
-      io.to(receiverSocket.socketId).emit("newMsgReceived", { newMsg });
-    }
-    else {
-      await setMsgToUnread(msgSendToUserId);
-    }
+      if (receiverSocket) {
+        io.to(receiverSocket.socketId).emit("newMsgReceived", { newMsg });
+      }
+      else {
+        await setMsgToUnread(msgSendToUserId);
+      }
 
-    !error && socket.emit("msgSentFromNotification");
-  });
+      !error && socket.emit("msgSentFromNotification");
+    }
+  );
 
   socket.on("disconnect", () => removeUser(socket.id));
 });
@@ -107,6 +117,7 @@ io.on("connection", socket => {
 nextApp.prepare().then(() => {
   app.use("/api/signup", require("./api/signup"));
   app.use("/api/auth", require("./api/auth"));
+  app.use("/api/reset", require("./api/reset"));
   app.use("/api/search", require("./api/search"));
   app.use("/api/posts", require("./api/posts"));
   app.use("/api/profile", require("./api/profile"));
@@ -115,7 +126,7 @@ nextApp.prepare().then(() => {
 
   app.all("*", (req, res) => handle(req, res));
 
-  server.listen(PORT, err => {
+  server.listen(PORT, (err) => {
     if (err) throw err;
     console.log("Express server running");
   });

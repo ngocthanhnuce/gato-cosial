@@ -42,9 +42,12 @@ function Layout({ children, user }) {
           <style>{mediaStyles}</style>
 
           <MediaContextProvider>
-            <div style={{backgroundColor: '#EFF8FB'}}>
+            <div style={{ backgroundColor: "#EFF8FB" }}>
               <div style={{ marginLeft: "1rem", marginRight: "1rem" }}>
-                <Media greaterThanOrEqual="computer">
+                <Media
+                  greaterThanOrEqual="computer"
+                  style={{ marginLeft: "1rem", marginRight: "1rem" }}
+                >
                   <Ref innerRef={contextRef}>
                     <Grid>
                       {!messagesRoute ? (
@@ -64,6 +67,7 @@ function Layout({ children, user }) {
                           <Grid.Column floated="left" width={3}>
                             <Sticky context={contextRef}>
                               <Segment basic>
+                                <h3>Người liên hệ</h3>
                                 <Search />
                               </Segment>
                             </Sticky>
@@ -71,8 +75,12 @@ function Layout({ children, user }) {
                         </Grid.Row>
                       ) : (
                         <Grid.Row>
-                          <Grid.Column floated="left" width={1} />
-                          <Grid.Column width={15}>{children}</Grid.Column>
+                          <Grid.Column floated="left" width={3}>
+                            <Sticky context={contextRef}>
+                              <SideMenu user={user} pc />
+                            </Sticky>
+                          </Grid.Column>
+                          <Grid.Column width={13}>{children}</Grid.Column>
                         </Grid.Row>
                       )}
                     </Grid>

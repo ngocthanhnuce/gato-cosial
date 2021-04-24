@@ -26,7 +26,7 @@ function FollowerNotification({
               <Feed.User as="a" href={`/${notification.user.username}`}>
                 {notification.user.name}
               </Feed.User>{" "}
-              started following you.
+              đã bắt đầu theo dõi bạn.
               <Feed.Date>{calculateTime(notification.date)}</Feed.Date>
             </>
           </Feed.Summary>

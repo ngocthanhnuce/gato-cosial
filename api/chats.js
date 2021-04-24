@@ -1,8 +1,8 @@
 // @ts-nocheck
 const express = require("express");
 const router = express.Router();
-const ChatModel = require("../models/ChatModel");
-const UserModel = require("../models/UserModel");
+const ChatModel = require("../models/Chat");
+const UserModel = require("../models/User");
 const authMiddleware = require("../middleware/authMiddleware");
 
 //get all chat

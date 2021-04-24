@@ -9,6 +9,7 @@ import {
   Popup,
   Header,
   Modal,
+  Grid,
 } from "semantic-ui-react";
 import PostComments from "./PostComments";
 import CommentInputField from "./CommentInputField";
@@ -73,30 +74,31 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
             />
 
             {(user.role === "root" || post.user._id === user._id) && (
-              <>
+              <Grid.Column floated="right" width="2">
                 <Popup
                   on="click"
                   position="top right"
                   trigger={
-                    <Image
-                      src="/deleteIcon.svg"
-                      style={{ cursor: "pointer", width: "25px" }}
-                      size="mini"
-                      floated="right"
+                    <Icon
+                      name="ellipsis horizontal"
+                      size="small"
+                      style={{ cursor: "pointer" }}
                     />
                   }
                 >
-                  <Header as="h4" content="Bạn chắc chắn muốn xóa ?" />
-                  <Button
-                    color="red"
-                    icon="trash"
-                    content="Delete"
-                    onClick={() =>
-                      deletePost(post._id, setPosts, setShowToastr)
-                    }
-                  />
+                  <Header as="h4" content="Bạn có muốn xóa bài viết ?" />
+                  <div style={{ textAlign: "center" }}>
+                    <Button
+                      color="red"
+                      icon="trash"
+                      content="Delete"
+                      onClick={() =>
+                        deletePost(post._id, setPosts, setShowToastr)
+                      }
+                    />
+                  </div>
                 </Popup>
-              </>
+              </Grid.Column>
             )}
 
             <Card.Header>
@@ -180,7 +182,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
               postId={post._id}
               trigger={
                 likes.length > 0 && (
-                  <span className="spanLikesList" style={{color: 'black'}}>
+                  <span className="spanLikesList" style={{ color: "black" }}>
                     {`${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
                   </span>
                 )
@@ -198,7 +200,7 @@ function CardPost({ post, user, setPosts, setShowToastr, socket }) {
               quote={post?.text}
               // hashtag="#social_network"
             >
-              <Icon name="send" size="large" style={{ marginLeft: "7px" }}  />
+              <Icon name="send" size="large" style={{ marginLeft: "7px" }} />
             </FacebookShareButton>
             {comments.length > 0 &&
               comments.map(

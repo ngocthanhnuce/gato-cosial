@@ -146,7 +146,7 @@ function CreatePost({ user, setPosts }) {
                   onChange={handleChange}
                   label="Thêm vị trí"
                   icon="map marker alternate"
-                  placeholder="Bạn có muốn thêm vị trí?"
+                  placeholder="Check in?"
                   style={{ width: "80%" }}
                 />
 
