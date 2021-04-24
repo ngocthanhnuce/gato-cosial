@@ -29,8 +29,6 @@ const { likeOrUnlikePost } = require("./utilsServer/likeOrUnlikePost");
 io.on("connection", (socket) => {
   socket.on("join", async ({ userId }) => {
     const users = await addUser(userId, socket.id);
-    console.log(users);
-
     setInterval(() => {
       socket.emit("connectedUsers", {
         users: users.filter((user) => user.userId !== userId),
