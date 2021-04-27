@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
@@ -31,10 +32,9 @@ function Messages({ chatsData, user }) {
 
   const divRef = useRef();
 
-  // This ref is for persisting the state of query string in url throughout re-renders. This ref is the value of query string inside url
   const openChatId = useRef("");
 
-  //CONNECTION useEffect
+  //connection useEffect
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(baseUrl);
@@ -62,7 +62,7 @@ function Messages({ chatsData, user }) {
     };
   }, []);
 
-  // LOAD MESSAGES useEffect
+  //load message useEffect
   useEffect(() => {
     const loadMessages = () => {
       socket.current.emit("loadMessages", {
@@ -126,7 +126,6 @@ function Messages({ chatsData, user }) {
       socket.current.on("newMsgReceived", async ({ newMsg }) => {
         let senderName;
 
-        // WHEN CHAT WITH SENDER IS CURRENTLY OPENED INSIDE YOUR BROWSER
         if (newMsg.sender === openChatId.current) {
           setMessages((prev) => [...prev, newMsg]);
 
@@ -142,7 +141,6 @@ function Messages({ chatsData, user }) {
             return [...prev];
           });
         }
-        //
         else {
           const ifPreviouslyMessaged =
             chats.filter((chat) => chat.messagesWith === newMsg.sender).length >
@@ -164,8 +162,6 @@ function Messages({ chatsData, user }) {
               ];
             });
           }
-
-          //IF NO PREVIOUS CHAT WITH THE SENDER
           else {
             const { name, profilePicUrl } = await getUserInfo(newMsg.sender);
             senderName = name;

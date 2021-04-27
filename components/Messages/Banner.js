@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { Segment, Grid, Image, Icon } from "semantic-ui-react";
 

@@ -141,7 +141,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_head__WEBPACK_IMPORTED_MODULE_1__);
 
 
-var _jsxFileName = "E:\\social_network\\gato-cosial\\components\\Layout\\HeadTags.js";
+var _jsxFileName = "C:\\Users\\Admin\\Documents\\Gato-cocial\\components\\Layout\\HeadTags.js";
 
 
 function HeadTags() {
@@ -240,7 +240,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _artsy_fresnel__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_artsy_fresnel__WEBPACK_IMPORTED_MODULE_10__);
 
 
-var _jsxFileName = "E:\\social_network\\gato-cosial\\components\\Layout\\Layout.js";
+var _jsxFileName = "C:\\Users\\Admin\\Documents\\Gato-cocial\\components\\Layout\\Layout.js";
 // @ts-nocheck
 
 
@@ -693,7 +693,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _utils_authUser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/authUser */ "./utils/authUser.js");
 
-var _jsxFileName = "E:\\social_network\\gato-cosial\\components\\Layout\\MobileHeader.js";
+var _jsxFileName = "C:\\Users\\Admin\\Documents\\Gato-cocial\\components\\Layout\\MobileHeader.js";
 
 
 
@@ -900,7 +900,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! semantic-ui-react */ "semantic-ui-react");
 /* harmony import */ var semantic_ui_react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(semantic_ui_react__WEBPACK_IMPORTED_MODULE_4__);
 
-var _jsxFileName = "E:\\social_network\\gato-cosial\\components\\Layout\\Navbar.js";
+var _jsxFileName = "C:\\Users\\Admin\\Documents\\Gato-cocial\\components\\Layout\\Navbar.js";
 
 
 
@@ -1021,7 +1021,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_baseUrl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/baseUrl */ "./utils/baseUrl.js");
 /* harmony import */ var _utils_baseUrl__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_utils_baseUrl__WEBPACK_IMPORTED_MODULE_6__);
 
-var _jsxFileName = "E:\\social_network\\gato-cosial\\components\\Layout\\Search.js";
+var _jsxFileName = "C:\\Users\\Admin\\Documents\\Gato-cocial\\components\\Layout\\Search.js";
 // @ts-nocheck
 
 
@@ -1163,7 +1163,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_authUser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/authUser */ "./utils/authUser.js");
 
 
-var _jsxFileName = "E:\\social_network\\gato-cosial\\components\\Layout\\SideMenu.js";
+var _jsxFileName = "C:\\Users\\Admin\\Documents\\Gato-cocial\\components\\Layout\\SideMenu.js";
 // @ts-nocheck
 
 
@@ -4459,7 +4459,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_baseUrl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/baseUrl */ "./utils/baseUrl.js");
 /* harmony import */ var _utils_baseUrl__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_utils_baseUrl__WEBPACK_IMPORTED_MODULE_7__);
 
-var _jsxFileName = "E:\\social_network\\gato-cosial\\pages\\_app.js";
+var _jsxFileName = "C:\\Users\\Admin\\Documents\\Gato-cocial\\pages\\_app.js";
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 

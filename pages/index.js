@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
@@ -10,8 +11,7 @@ import { NoPosts } from "../components/Layout/NoData";
 import { PostDeleteToastr } from "../components/Layout/Toastr";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {
-  PlaceHolderPosts,
-  EndMessage,
+  EndMessage, PlaceHolderPosts,
 } from "../components/Layout/PlaceHolderGroup";
 import cookie from "js-cookie";
 import getUserInfo from "../utils/getUserInfo";
